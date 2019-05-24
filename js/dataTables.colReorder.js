@@ -268,7 +268,8 @@ $.fn.dataTableExt.oApi.fnColReorder = function ( oSettings, iFrom, iTo, drop, in
 		if (isComplexHeader)
 		{
 			var offItsColspan = false;
-			var nThs = parentTrs[0].getElementsByTagName('th');
+			// take last header tr with different column size than columns defined
+			var nThs = parentTrs[parentTrs.length -1].getElementsByTagName('th');
 			var allIndexes = [];
 			var index = 0;
 			var stopIndex = 0;
