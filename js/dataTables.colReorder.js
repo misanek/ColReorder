@@ -248,8 +248,63 @@ $.fn.dataTableExt.oApi.fnColReorder = function ( oSettings, iFrom, iTo, drop, in
 			i++;
 		}
 
-		/* Header */
 		nTrs = oSettings.nTHead.getElementsByTagName('tr');
+		var isComplexHeader = false;
+		var parentTrs = [];
+		var movableTrs = [];
+		// divide Trs to 2 groups
+		for ( i=0, iLen=nTrs.length ; i<iLen ; i++ )
+		{
+			if (nTrs[i].getElementsByTagName('th').length !== oSettings.aoColumns.length)
+			{
+				isComplexHeader = true;
+				parentTrs.push(nTrs[i]);
+			}
+			else
+			{
+				movableTrs.push(nTrs[i]);
+			}
+		}
+		if (isComplexHeader)
+		{
+			var offItsColspan = false;
+			var nThs = parentTrs[0].getElementsByTagName('th');
+			var allIndexes = [];
+			var index = 0;
+			var stopIndex = 0;
+			// create 2 dimesional array of indexes groups based on colspans
+			for (var i = 0; i < nThs.length; i++) {
+				var indexesArray = [];
+				stopIndex = stopIndex + $(nThs[i]).prop('colspan');
+				while (index < stopIndex ) {
+					indexesArray.push(index);
+					index++;
+				}
+				allIndexes.push(indexesArray);
+			}
+			// find in which colspan we are
+			var gruopIndex= 0 ;
+			for ( i=0, iLen=allIndexes.length; i<iLen ; i++ ) {
+				if (allIndexes[i].indexOf(iVisibleIndex) !== -1 ) {
+					gruopIndex = i;
+					break;
+				}
+			}
+			// out of the colspan to the right
+			if ( iInsertBeforeIndex !== null && iInsertBeforeIndex -1 > allIndexes[gruopIndex] [allIndexes[gruopIndex].length - 1] ) {
+				offItsColspan = true;
+			}
+			// out of the colspan to the left
+			if ( iInsertBeforeIndex !== null && iInsertBeforeIndex  < allIndexes[gruopIndex] [0] ) {
+				offItsColspan = true;
+			}
+			// return if we are off colspan and we are not moving second last to last position
+			if (offItsColspan || (iInsertBeforeIndex === null && iVisibleIndex !== oSettings.aoColumns.length - 2 ) ){
+				return
+			}
+			nTrs = movableTrs;
+		}
+		/* Header */
 		for ( i=0, iLen=nTrs.length ; i<iLen ; i++ )
 		{
 			fnDomSwitch( nTrs[i], iVisibleIndex, iInsertBeforeIndex );
