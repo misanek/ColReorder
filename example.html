@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/scss" href="css/colReorder.dataTables.scss">
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+    <script  src="https://code.jquery.com/jquery-1.12.4.min.js"  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="  crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="js/dataTables.colReorder.js"></script>
+
+    <script>
+            var dataSet = [
+    {
+      id: {
+        name: null
+      },
+      height: 150,
+      level: 11,
+      weight: 90,
+      age: 45,
+      number: null,
+      salary: 1200,
+      card: null,
+      gender: 'male'
+    },
+    {
+      id: {
+        name: 2
+      },
+      height: null,
+      level: 3,
+      weight: 180,
+      age: 75,
+      number: 7,
+      salary: null,
+      card: 7777,
+      gender: null
+    },
+    {
+      id: {
+        name: 3
+      },
+      height: null,
+      level: null,
+      weight: null,
+      age: 15,
+      number: 18,
+      salary: 1800,
+      card: 5555,
+      gender: 'male'
+    },
+    {
+      id: {
+        name: 0
+      },
+      height: 0,
+      level: 0,
+      weight: 80,
+      age: null,
+      number: 666,
+      salary: 10200,
+      card: null,
+      gender: 'male'
+    },
+
+  ];
+
+  $(document).ready(function() {
+    const table = $('#example').DataTable({
+      data: dataSet,
+      colReorder: true,
+      columns: [{
+          title: "ID",
+          data: 'id.name',
+        },
+        {
+          title: "height",
+          data: 'height',
+        },
+        {
+          title: "level",
+          data: 'level',
+        },
+        {
+          title: "weight",
+          data: 'weight',
+        },
+        {
+          title: "age",
+          data: 'age',
+        },
+        {
+          title: "lucky number",
+          data: 'number',
+        },
+        {
+          title: "salary",
+          data: 'salary',
+        },
+        {
+          title: "card",
+          data: 'card',
+        },
+      ]
+    });
+    });
+
+    </script>
+    <meta charset=utf-8 />
+    <title>yadcf - Yet Another DataTables Column Filter</title>
+</head>
+
+<body id="yadcf_example">
+    <table id="example" class="display" width="100%">
+    <thead>
+        <tr>
+            <th colspan="4">One</th>
+            <th colspan="4">Two</th>
+        </tr>
+        <tr>
+            <th colspan="1">Name</th>
+            <th colspan="5">HR Information</th>
+            <th colspan="2">aaaa</th>
+        </tr>
+        <tr>
+            <th>ID</th>
+            <th>height</th>
+            <th>level</th>
+            <th>weight</th>
+            <th>age</th>
+            <th>lucky number</th>
+            <th>salary</th>
+            <th>card</th>
+        </tr>
+     </thead>
+  <tbody>
+
+
+  </tbody>
+  </table>
+</body>
+</html>

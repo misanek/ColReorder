@@ -249,23 +249,30 @@ $.fn.dataTableExt.oApi.fnColReorder = function ( oSettings, iFrom, iTo, drop, in
 		}
 
 		nTrs = oSettings.nTHead.getElementsByTagName('tr');
-		var isComplexHeader = false;
+		var isComplexTh = false;
 		var parentTrs = [];
 		var movableTrs = [];
 		// divide Trs to 2 groups
 		for ( i=0, iLen=nTrs.length ; i<iLen ; i++ )
 		{
-			if (nTrs[i].getElementsByTagName('th').length !== oSettings.aoColumns.length)
-			{
-				isComplexHeader = true;
-				parentTrs.push(nTrs[i]);
+			var nThs = nTrs[i].getElementsByTagName('th');
+			for (j = 0; j < nThs.length; j++) {
+				//if we have 2+ size colspan, it is complex header
+				if ( $(nThs[j]).prop('colspan') && $(nThs[j]).prop('colspan') > 1) {
+					isComplexTh = true;
+					break;
+				}
 			}
-			else
-			{
+			if (isComplexTh) {
+				parentTrs.push(nTrs[i]);
+				isComplexTh = false;
+			}
+			else {
 				movableTrs.push(nTrs[i]);
+				isComplexTh = false;
 			}
 		}
-		if (isComplexHeader)
+		if (parentTrs.length > 0 &&  movableTrs.length > 0 )
 		{
 			var offItsColspan = false;
 			// take last header tr with different column size than columns defined
@@ -274,7 +281,7 @@ $.fn.dataTableExt.oApi.fnColReorder = function ( oSettings, iFrom, iTo, drop, in
 			var index = 0;
 			var stopIndex = 0;
 			// create 2 dimesional array of indexes groups based on colspans
-			for (var i = 0; i < nThs.length; i++) {
+			for (i = 0; i < nThs.length; i++) {
 				var indexesArray = [];
 				stopIndex = stopIndex + $(nThs[i]).prop('colspan');
 				while (index < stopIndex ) {
